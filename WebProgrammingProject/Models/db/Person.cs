@@ -1,4 +1,4 @@
-﻿namespace WebProgrammingProject.Models
+﻿namespace WebProgrammingProject.Models.db
 {
     public class Person
     {

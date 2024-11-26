@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace WebProgrammingProject.Models
+namespace WebProgrammingProject.Models.db
 {
-    public class Shopkeeper : DbContext
+    public class Shopkeeper
     {
         public Person PersonalInfo { get; set; }
         public List<Shop> Shops { get; set; }

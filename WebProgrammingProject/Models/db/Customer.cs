@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
-namespace WebProgrammingProject.Models
+namespace WebProgrammingProject.Models.db
 {
-    public class Customer : DbContext
+    public class Customer
     {
         public Person PersonalInfo { get; set; }
         List<Rendezvous> Rendezvous { get; set; }
-        
+
     }
 
 }

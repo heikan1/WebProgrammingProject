@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace WebProgrammingProject.Models
+namespace WebProgrammingProject.Models.db
 {
-    public class Rendezvous : DbContext
+    public class Rendezvous
     {
         public int Id { get; set; }
         public DateTime When { get; set; }

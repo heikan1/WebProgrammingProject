@@ -1,15 +1,15 @@
-﻿namespace WebProgrammingProject.Models
+﻿namespace WebProgrammingProject.Models.db
 {
     public class AvailableTime
     {
-        public DateTime start_t {  get; set; }
+        public DateTime start_t { get; set; }
         public DateTime end_t { get; set; }
         public TimeSpan availableTimeSpan { get; set; }
 
         public AvailableTime(DateTime start, DateTime end)
         {
             start_t = start;
-            end_t= end;
+            end_t = end;
             availableTimeSpan = end.Subtract(start);
         }
 
