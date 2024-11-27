@@ -12,9 +12,10 @@ namespace WebProgrammingProject.Models.db
         public DbSet<Rendezvous> Rendezvous_t { get; set; }
         public DbSet<AvailableTime> AvailableTime_t { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Db(DbContextOptions<Db> options) : base(options) { }
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("<connection string>");
-        }
+        }*/
     }
 }

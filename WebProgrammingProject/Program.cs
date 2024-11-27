@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using WebProgrammingProject.Models.db;
+
 namespace WebProgrammingProject
 {
     public class Program
@@ -6,8 +9,12 @@ namespace WebProgrammingProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<Db>(options => options.UseNpgsql(connectionString));
 
             var app = builder.Build();
 

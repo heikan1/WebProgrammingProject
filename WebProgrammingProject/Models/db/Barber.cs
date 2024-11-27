@@ -2,8 +2,9 @@
 {
     public class Barber
     {
+        public int Id { get; set; }
         public Person PersonalInfo { get; set; }
-        List<Rendezvous> Rendezvous { get; set; }
-        List<AvailableTime> AvailableTimes { get; set; }
+        public List<Rendezvous> Rendezvous { get; set; }
+        public List<AvailableTime> AvailableTimes { get; set; }
     }
 }

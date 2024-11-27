@@ -6,8 +6,9 @@ namespace WebProgrammingProject.Models.db
 {
     public class Customer
     {
+        public int Id { get; set; }
         public Person PersonalInfo { get; set; }
-        List<Rendezvous> Rendezvous { get; set; }
+        public List<Rendezvous> Rendezvous { get; set; }
 
     }
 

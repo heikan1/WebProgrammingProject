@@ -8,7 +8,7 @@ namespace WebProgrammingProject.Models.db
         public string Name { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-        List<Barber> Barbers { get; set; }
-
+        public List<Barber> Barbers { get; set; }
+        public Shopkeeper Shopkeeper { get; set; }
     }
 }

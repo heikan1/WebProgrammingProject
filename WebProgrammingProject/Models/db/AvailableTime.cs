@@ -2,15 +2,16 @@
 {
     public class AvailableTime
     {
+        public int Id { get; set; }
         public DateTime start_t { get; set; }
         public DateTime end_t { get; set; }
         public TimeSpan availableTimeSpan { get; set; }
 
-        public AvailableTime(DateTime start, DateTime end)
+        public Barber Barber { get; set; }  
+
+        public AvailableTime(DateTime start_t, DateTime end_t)
         {
-            start_t = start;
-            end_t = end;
-            availableTimeSpan = end.Subtract(start);
+            availableTimeSpan = end_t.Subtract(start_t);
         }
 
         //public TimeSpan availableSpan 
