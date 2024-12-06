@@ -1,0 +1,50 @@
+﻿@model WebProgrammingProject.Models.db.Person
+
+@{
+    ViewBag.Title = "Create Customer";
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Customer</h4>
+
+<hr />
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form action="/Customers/Create" method="post">
+            @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <h3>Personal Details</h3>
+
+                    @Html.LabelFor(model => model.FirstName)
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+
+                    @Html.LabelFor(model => model.SurName)
+                    @Html.TextBoxFor(model => model.SurName, new { @class = "form-control" })
+
+                    @Html.LabelFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+
+                    @Html.LabelFor(model => model.Password)
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+           
+        
+        </div>
+    </div>
+}
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

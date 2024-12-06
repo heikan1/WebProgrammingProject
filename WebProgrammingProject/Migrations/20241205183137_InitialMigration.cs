@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -7,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebProgrammingProject.Migrations
 {
     /// <inheritdoc />
-    public partial class First_Migration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,10 +19,10 @@ namespace WebProgrammingProject.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    SurName = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    SurName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false)
+                    Password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,6 +96,7 @@ namespace WebProgrammingProject.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PersonalInfoId = table.Column<int>(type: "integer", nullable: false),
+                    Proficiencies = table.Column<List<string>>(type: "text[]", nullable: false),
                     ShopId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>

@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using System.Net;
 using WebProgrammingProject.Models.db;
 
 namespace WebProgrammingProject
@@ -15,6 +18,11 @@ namespace WebProgrammingProject
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<Db>(options => options.UseNpgsql(connectionString));
+            
+            builder.Services.AddAuthentication(
+                CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                x => { x.LoginPath = "/Login/Index"; }
+                );
 
             var app = builder.Build();
 
@@ -39,5 +47,6 @@ namespace WebProgrammingProject
 
             app.Run();
         }
+        
     }
 }
