@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace WebProgrammingProject.Models.db
 {
@@ -23,5 +24,7 @@ namespace WebProgrammingProject.Models.db
         [Required(ErrorMessage ="Lütfen şifrenizi giriniz."), MinLength(10,ErrorMessage ="Şifreniz 10 karakterden uzun olmalıdır."),MaxLength(100,ErrorMessage ="Şifreniz 100 karakterden küçük olmalıdır.")]
         [DisplayName("Şifre")]
         public string Password { get; set; }
+
+        public Shopkeeper? shopkeeper{ get; set; }
     }
 }

@@ -1,0 +1,101 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebProgrammingProject</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebProgrammingProject.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="fs-4 text-warning">B<span class="d-none d-sm-inline text-light">arber</span></span>
+                    <span class="fs-4 text-warning">N<span class="d-none d-sm-inline text-light">etwork</span></span>
+                </a>
+
+                <button class="navbar-toggler text-warning" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="BarberShopsPage" asp-action="Privacy">Berber Mağazaları</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="BarbersPage" asp-action="Privacy">Berberler</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="SettingsPage" asp-action="Privacy">Ayarlar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Sidebar -->
+    <div class="d-flex">
+        <div class="sidebar p-3">
+            <h4 class="text-center">Admin Panel</h4>
+            <hr class="text-white">
+            <nav class="nav flex-column">
+                <a class="nav-link active" asp-area="" asp-controller="Admin" asp-action="Index">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Users">
+                    <i class="fas fa-users"></i> Kullanıcı Kontrolleri
+                </a>
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Employees">
+                    <i class="fas fa-user-tie"></i> Çalışan Kontrolleri
+                </a>
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Appointments">
+                    <i class="fas fa-calendar-check"></i> Randevu Kontrolleri
+                </a>
+                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Salons">
+                    <i class="fas fa-store"></i> Salon Kontrolleri
+                </a>
+                <a class="nav-link text-danger" asp-area="" asp-controller="Account" asp-action="Logout">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                </a>
+            </nav>
+        </div>
+        <div class="content">
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+   
+
+    <footer class="border-top footer text-muted bg-dark">
+        <div class="container">
+            &copy; 2024 - WebProgrammingProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+

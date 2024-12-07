@@ -28,32 +28,51 @@ namespace WebProgrammingProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(string email, string password)
         {
-            
-            var shopkeeper = _context.Shopkeeper_t.FirstOrDefault(u => u.PersonalInfo.Email== email && u.PersonalInfo.Password== password);
-            if (shopkeeper== null)
-            {
-                var barber = _context.Barber_t.FirstOrDefault(u => u.PersonalInfo.Email == email && u.PersonalInfo.Password == password);
-                if (barber == null)
+
+            //var person = _context.Person_t.FirstOrDefault(u => u.Email == email && u.Password == password);
+            var person = _context.Person_t.Where(p => p.Email == email && p.Password == password).FirstOrDefault();
+            if (person != null) { 
+                var shopkeeper = _context.Shopkeeper_t.FirstOrDefault(u => u.PersonalInfo.Email == email && u.PersonalInfo.Password == password);
+                if (shopkeeper == null)
                 {
-                    var customer = _context.Customer_t.FirstOrDefault(u => u.PersonalInfo.Email == email && u.PersonalInfo.Password == password);
-                    if (customer == null)
+                    var barber = _context.Barber_t.FirstOrDefault(u => u.PersonalInfo.Email == email && u.PersonalInfo.Password == password);
+                    if (barber == null)
                     {
-                        ViewBag.ErrorMessage = "E-posta veya şifre hatalı.";
-                        return View();
+                        var customer = _context.Customer_t.FirstOrDefault(u => u.PersonalInfo.Email == email && u.PersonalInfo.Password == password);
+                        if (customer == null)
+                        {
+                            ViewBag.ErrorMessage = "E-posta veya şifre hatalı.";
+                            return View();
+                        }
+                        else
+                        {
+                            var claims = new List<Claim>
+                            {
+                            new Claim(ClaimTypes.Name, person.FirstName),
+                            new Claim(ClaimTypes.Email, person.Email),
+                            new Claim(ClaimTypes.Role, customer.Role) // Rolü sakla
+                            };
+                            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            var principal = new ClaimsPrincipal(identity);
+
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                        
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
                         var claims = new List<Claim>
-                        {
-                        new Claim(ClaimTypes.Name, customer.PersonalInfo.FirstName),
-                        new Claim(ClaimTypes.Email, customer.PersonalInfo.Email),
-                        new Claim(ClaimTypes.Role, customer.Role) // Rolü sakla
-                        };
+                            {
+                            new Claim(ClaimTypes.Name, person.FirstName),
+                            new Claim(ClaimTypes.Email, person.Email),
+                            new Claim(ClaimTypes.Role, barber.Role) // Rolü sakla
+                            };
                         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                        
+
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -61,35 +80,23 @@ namespace WebProgrammingProject.Controllers
                 {
                     var claims = new List<Claim>
                         {
-                        new Claim(ClaimTypes.Name, barber.PersonalInfo.FirstName),
-                        new Claim(ClaimTypes.Email, barber.PersonalInfo.Email),
-                        new Claim(ClaimTypes.Role, barber.Role) // Rolü sakla
+                        new Claim(ClaimTypes.Name, person.FirstName),
+                        new Claim(ClaimTypes.Email, person.Email),
+                        new Claim(ClaimTypes.Role, shopkeeper.Role) // Rolü sakla
                         };
+
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Shopkeeper");
                 }
             }
-            else
-            {
-                var claims = new List<Claim>
-                    {
-                    new Claim(ClaimTypes.Name, shopkeeper.PersonalInfo.FirstName),
-                    new Claim(ClaimTypes.Email, shopkeeper.PersonalInfo.Email),
-                    new Claim(ClaimTypes.Role, shopkeeper.Role) // Rolü sakla
-                    };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                return RedirectToAction("Index", "Shopkeeper");
-            }
-
+            
+            //hata mesaji eklerim
+            return RedirectToAction("Index", "Login");
+            
         }
     }
 }

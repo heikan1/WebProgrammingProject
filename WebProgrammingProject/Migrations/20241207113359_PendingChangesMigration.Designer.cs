@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebProgrammingProject.Models.db;
@@ -12,9 +13,11 @@ using WebProgrammingProject.Models.db;
 namespace WebProgrammingProject.Migrations
 {
     [DbContext(typeof(Db))]
-    partial class DbModelSnapshot : ModelSnapshot
+    [Migration("20241207113359_PendingChangesMigration")]
+    partial class PendingChangesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,12 +120,18 @@ namespace WebProgrammingProject.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int>("ShopkeeperId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SurName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopkeeperId")
+                        .IsUnique();
 
                     b.ToTable("Person_t");
                 });
@@ -191,13 +200,7 @@ namespace WebProgrammingProject.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonId")
-                        .IsUnique();
 
                     b.ToTable("Shopkeeper_t");
                 });
@@ -239,6 +242,17 @@ namespace WebProgrammingProject.Migrations
                     b.Navigation("PersonalInfo");
                 });
 
+            modelBuilder.Entity("WebProgrammingProject.Models.db.Person", b =>
+                {
+                    b.HasOne("WebProgrammingProject.Models.db.Shopkeeper", "shopkeeper")
+                        .WithOne("PersonalInfo")
+                        .HasForeignKey("WebProgrammingProject.Models.db.Person", "ShopkeeperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("shopkeeper");
+                });
+
             modelBuilder.Entity("WebProgrammingProject.Models.db.Rendezvous", b =>
                 {
                     b.HasOne("WebProgrammingProject.Models.db.Barber", "Barber")
@@ -269,17 +283,6 @@ namespace WebProgrammingProject.Migrations
                     b.Navigation("Shopkeeper");
                 });
 
-            modelBuilder.Entity("WebProgrammingProject.Models.db.Shopkeeper", b =>
-                {
-                    b.HasOne("WebProgrammingProject.Models.db.Person", "PersonalInfo")
-                        .WithOne("shopkeeper")
-                        .HasForeignKey("WebProgrammingProject.Models.db.Shopkeeper", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PersonalInfo");
-                });
-
             modelBuilder.Entity("WebProgrammingProject.Models.db.Barber", b =>
                 {
                     b.Navigation("AvailableTimes");
@@ -292,11 +295,6 @@ namespace WebProgrammingProject.Migrations
                     b.Navigation("Rendezvous");
                 });
 
-            modelBuilder.Entity("WebProgrammingProject.Models.db.Person", b =>
-                {
-                    b.Navigation("shopkeeper");
-                });
-
             modelBuilder.Entity("WebProgrammingProject.Models.db.Shop", b =>
                 {
                     b.Navigation("Barbers");
@@ -304,6 +302,9 @@ namespace WebProgrammingProject.Migrations
 
             modelBuilder.Entity("WebProgrammingProject.Models.db.Shopkeeper", b =>
                 {
+                    b.Navigation("PersonalInfo")
+                        .IsRequired();
+
                     b.Navigation("Shops");
                 });
 #pragma warning restore 612, 618
