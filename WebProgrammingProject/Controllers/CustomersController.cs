@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebProgrammingProject.Models.db;
 using WebProgrammingProject.Models.viewModels;
 
@@ -72,7 +73,7 @@ namespace WebProgrammingProject.Controllers
                 _context.Customer_t.Add(customer);
                 await _context.SaveChangesAsync();
                 
-                return RedirectToAction("/Customers/Added"); //baska bir sayfaya yonlendirme
+                return RedirectToAction("Index"); //baska bir sayfaya yonlendirme
             }
             return View("/Customers/NotAdded");
         }
@@ -98,8 +99,11 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Customer customer)
+        public async Task<IActionResult> Edit(int id, int pId,  string FirstName, string Surname, string Password, string Email)
         {
+            var person = _context.Person_t.Where(p => p.Id==pId).FirstOrDefault();
+            var customer = _context.Person_t.Where(c => c.Id == id).FirstOrDefault();
+
             if (id != customer.Id)
             {
                 return NotFound();
