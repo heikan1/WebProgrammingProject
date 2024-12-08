@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebProgrammingProject.Models.db
 {
@@ -8,7 +9,12 @@ namespace WebProgrammingProject.Models.db
         public string Name { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-        public List<Barber> Barbers { get; set; }
-        public Shopkeeper Shopkeeper { get; set; }
+
+        [Required]
+        public List<Barber> Barbers { get; set; } = new List<Barber>();
+
+        public int ShopkeeperId { get; set; } // Required foreign key property
+        public Shopkeeper? shopkeeper { get; set; }
+
     }
 }
