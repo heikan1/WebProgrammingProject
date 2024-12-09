@@ -47,6 +47,9 @@ namespace WebProgrammingProject.Controllers
         // GET: Shops/Create
         public IActionResult Create()
         {
+            List<int> sh_ids = (from sh in _context.Shopkeeper_t
+                             select sh.Id).ToList();
+            ViewBag.shIds = sh_ids;
             return View();
         }
 
@@ -69,6 +72,9 @@ namespace WebProgrammingProject.Controllers
         // GET: Shops/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<int> sh_ids = (from sh in _context.Shopkeeper_t
+                                select sh.Id).ToList();
+            ViewBag.shIds = sh_ids;
             if (id == null)
             {
                 return NotFound();

@@ -47,6 +47,9 @@ namespace WebProgrammingProject.Controllers
         // GET: Barbers/Create
         public IActionResult Create()
         {
+            List<int> sh_ids = (from sh in _context.Shop_t
+                    select sh.Id).ToList();
+            ViewBag.shIds = sh_ids;
             return View();
         }
 
@@ -57,18 +60,24 @@ namespace WebProgrammingProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ShopId,FirstName,SurName,Email,Password")] Barber barber)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(barber);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(barber);
         }
 
         // GET: Barbers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            List<int> sh_ids = (from sh in _context.Shop_t
+                                select sh.Id).ToList();
+            ViewBag.shIds = sh_ids;
+
             if (id == null)
             {
                 return NotFound();
