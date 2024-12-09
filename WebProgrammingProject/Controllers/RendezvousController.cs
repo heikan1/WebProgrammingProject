@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,23 +9,22 @@ using WebProgrammingProject.Models.db;
 
 namespace WebProgrammingProject.Controllers
 {
-    [Authorize(Roles = "A")]
-    public class ShopsController : Controller
+    public class RendezvousController : Controller
     {
         private readonly Db _context;
 
-        public ShopsController(Db context)
+        public RendezvousController(Db context)
         {
             _context = context;
         }
 
-        // GET: Shops
+        // GET: Rendezvous
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Shop_t.ToListAsync());
+            return View(await _context.Rendezvous_t.ToListAsync());
         }
 
-        // GET: Shops/Details/5
+        // GET: Rendezvous/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +32,39 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t
+            var rendezvous = await _context.Rendezvous_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shop == null)
+            if (rendezvous == null)
             {
                 return NotFound();
             }
 
-            return View(shop);
+            return View(rendezvous);
         }
 
-        // GET: Shops/Create
+        // GET: Rendezvous/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Shops/Create
+        // POST: Rendezvous/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Create([Bind("Id,When,CustomerId,BarberId")] Rendezvous rendezvous)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shop);
+                _context.Add(rendezvous);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(shop);
+            return View(rendezvous);
         }
 
-        // GET: Shops/Edit/5
+        // GET: Rendezvous/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +72,22 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t.FindAsync(id);
-            if (shop == null)
+            var rendezvous = await _context.Rendezvous_t.FindAsync(id);
+            if (rendezvous == null)
             {
                 return NotFound();
             }
-            return View(shop);
+            return View(rendezvous);
         }
 
-        // POST: Shops/Edit/5
+        // POST: Rendezvous/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,When,CustomerId,BarberId")] Rendezvous rendezvous)
         {
-            if (id != shop.Id)
+            if (id != rendezvous.Id)
             {
                 return NotFound();
             }
@@ -98,12 +96,12 @@ namespace WebProgrammingProject.Controllers
             {
                 try
                 {
-                    _context.Update(shop);
+                    _context.Update(rendezvous);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShopExists(shop.Id))
+                    if (!RendezvousExists(rendezvous.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +112,10 @@ namespace WebProgrammingProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(shop);
+            return View(rendezvous);
         }
 
-        // GET: Shops/Delete/5
+        // GET: Rendezvous/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +123,34 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t
+            var rendezvous = await _context.Rendezvous_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shop == null)
+            if (rendezvous == null)
             {
                 return NotFound();
             }
 
-            return View(shop);
+            return View(rendezvous);
         }
 
-        // POST: Shops/Delete/5
+        // POST: Rendezvous/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shop = await _context.Shop_t.FindAsync(id);
-            if (shop != null)
+            var rendezvous = await _context.Rendezvous_t.FindAsync(id);
+            if (rendezvous != null)
             {
-                _context.Shop_t.Remove(shop);
+                _context.Rendezvous_t.Remove(rendezvous);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShopExists(int id)
+        private bool RendezvousExists(int id)
         {
-            return _context.Shop_t.Any(e => e.Id == id);
+            return _context.Rendezvous_t.Any(e => e.Id == id);
         }
     }
 }

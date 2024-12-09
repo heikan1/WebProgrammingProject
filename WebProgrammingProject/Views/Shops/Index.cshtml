@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Salonlar</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -23,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.shopkeeper)
+                @Html.DisplayNameFor(model => model.ShopkeeperId)
             </th>
             <th></th>
         </tr>
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.shopkeeper.Id)
+                @Html.DisplayFor(modelItem => item.ShopkeeperId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

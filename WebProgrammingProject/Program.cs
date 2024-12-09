@@ -21,7 +21,7 @@ namespace WebProgrammingProject
             
             builder.Services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                x => { x.LoginPath = "/Login/Index"; }
+                x => { x.LoginPath = "/Account/Login"; }
                 );
 
             var app = builder.Build();
@@ -39,6 +39,7 @@ namespace WebProgrammingProject
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

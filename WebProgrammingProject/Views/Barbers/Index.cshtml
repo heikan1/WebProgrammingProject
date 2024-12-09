@@ -1,11 +1,11 @@
-﻿@model IEnumerable<WebProgrammingProject.Models.db.Customer>
+﻿@model IEnumerable<WebProgrammingProject.Models.db.Barber>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
 
-<h1>Müşteriler</h1>
+<h1>Berberler</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,6 +13,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShopId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -31,6 +34,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShopId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>

@@ -43,6 +43,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="SettingsPage" asp-action="Privacy">Ayarlar</a>
                         </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  ms-auto">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">GİRİŞ YAP</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown  ms-auto">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Merhaba, @User.Identity.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Log out</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -60,17 +77,17 @@
                 <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="">
                     <i class="fas fa-users"></i> Müşteri Kontrolleri
                 </a>
-                <a class="nav-link" asp-area="" asp-controller="Barber" asp-action="">
+                <a class="nav-link" asp-area="" asp-controller="Barbers" asp-action="">
                     <i class="fas fa-user-tie"></i> Berber Kontrolleri
                 </a>
-                <a class="nav-link" asp-area="" asp-controller="Randezvous" asp-action="">
+                <a class="nav-link" asp-area="" asp-controller="Rendezvous" asp-action="">
                     <i class="fas fa-calendar-check"></i> Randevu Kontrolleri
+                </a>
+                <a class="nav-link" asp-area="" asp-controller="Proficiencies" asp-action="">
+                    <i class="fas fa-calendar-check"></i> Servis Kontrolleri
                 </a>
                 <a class="nav-link" asp-area="" asp-controller="Shops" asp-action="">
                     <i class="fas fa-store"></i> Salon Kontrolleri
-                </a>
-                <a class="nav-link text-danger" asp-area="" asp-controller="Account" asp-action="Logout">
-                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
                 </a>
             </nav>
         </div>

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                
+
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <span class="fs-4 text-warning">B<span class="d-none d-sm-inline text-light">arber</span></span>
                     <span class="fs-4 text-warning">N<span class="d-none d-sm-inline text-light">etwork</span></span>
@@ -37,27 +43,53 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="SettingsPage" asp-action="Privacy">Ayarlar</a>
                         </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  ms-auto">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">GİRİŞ YAP</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown  ms-auto">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Merhaba, @User.Identity.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Log out</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="content">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
+
+       
+
+
 
     <footer class="border-top footer text-muted bg-dark">
         <div class="container">
             &copy; 2024 - WebProgrammingProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+

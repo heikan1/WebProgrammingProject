@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebProgrammingProject.Models.db;
-using WebProgrammingProject.Models.viewModels;
 
 namespace WebProgrammingProject.Controllers
 {
+    [Authorize(Roles = "A")]
     public class CustomersController : Controller
     {
         private readonly Db _context;
@@ -47,8 +47,7 @@ namespace WebProgrammingProject.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            Person person = new Person();
-            return View(person);
+            return View();
         }
 
         // POST: Customers/Create
@@ -56,26 +55,15 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName, SurName,Email,Password")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,SurName,Email,Password")] Customer customer)
         {
-            Console.WriteLine("a");
             if (ModelState.IsValid)
             {
-            Console.WriteLine("b");
-                _context.Person_t.Add(person);
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
-
-                Customer customer = new Customer
-                {
-                    PersonalInfo = person,
-                }; 
-                
-                _context.Customer_t.Add(customer);
-                await _context.SaveChangesAsync();
-                
-                return RedirectToAction("Index"); //baska bir sayfaya yonlendirme
+                return RedirectToAction(nameof(Index));
             }
-            return View("/Customers/NotAdded");
+            return View(customer);
         }
 
         // GET: Customers/Edit/5
@@ -99,11 +87,8 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, int pId,  string FirstName, string Surname, string Password, string Email)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SurName,Email,Password")] Customer customer)
         {
-            var person = _context.Person_t.Where(p => p.Id==pId).FirstOrDefault();
-            var customer = _context.Person_t.Where(c => c.Id == id).FirstOrDefault();
-
             if (id != customer.Id)
             {
                 return NotFound();

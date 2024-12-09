@@ -11,22 +11,22 @@ using WebProgrammingProject.Models.db;
 namespace WebProgrammingProject.Controllers
 {
     [Authorize(Roles = "A")]
-    public class ShopsController : Controller
+    public class BarbersController : Controller
     {
         private readonly Db _context;
 
-        public ShopsController(Db context)
+        public BarbersController(Db context)
         {
             _context = context;
         }
 
-        // GET: Shops
+        // GET: Barbers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Shop_t.ToListAsync());
+            return View(await _context.Barber_t.ToListAsync());
         }
 
-        // GET: Shops/Details/5
+        // GET: Barbers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t
+            var barber = await _context.Barber_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shop == null)
+            if (barber == null)
             {
                 return NotFound();
             }
 
-            return View(shop);
+            return View(barber);
         }
 
-        // GET: Shops/Create
+        // GET: Barbers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Shops/Create
+        // POST: Barbers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Create([Bind("Id,ShopId,FirstName,SurName,Email,Password")] Barber barber)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shop);
+                _context.Add(barber);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(shop);
+            return View(barber);
         }
 
-        // GET: Shops/Edit/5
+        // GET: Barbers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t.FindAsync(id);
-            if (shop == null)
+            var barber = await _context.Barber_t.FindAsync(id);
+            if (barber == null)
             {
                 return NotFound();
             }
-            return View(shop);
+            return View(barber);
         }
 
-        // POST: Shops/Edit/5
+        // POST: Barbers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ShopId,FirstName,SurName,Email,Password")] Barber barber)
         {
-            if (id != shop.Id)
+            if (id != barber.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace WebProgrammingProject.Controllers
             {
                 try
                 {
-                    _context.Update(shop);
+                    _context.Update(barber);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ShopExists(shop.Id))
+                    if (!BarberExists(barber.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace WebProgrammingProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(shop);
+            return View(barber);
         }
 
-        // GET: Shops/Delete/5
+        // GET: Barbers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +125,34 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var shop = await _context.Shop_t
+            var barber = await _context.Barber_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (shop == null)
+            if (barber == null)
             {
                 return NotFound();
             }
 
-            return View(shop);
+            return View(barber);
         }
 
-        // POST: Shops/Delete/5
+        // POST: Barbers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shop = await _context.Shop_t.FindAsync(id);
-            if (shop != null)
+            var barber = await _context.Barber_t.FindAsync(id);
+            if (barber != null)
             {
-                _context.Shop_t.Remove(shop);
+                _context.Barber_t.Remove(barber);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShopExists(int id)
+        private bool BarberExists(int id)
         {
-            return _context.Shop_t.Any(e => e.Id == id);
+            return _context.Barber_t.Any(e => e.Id == id);
         }
     }
 }

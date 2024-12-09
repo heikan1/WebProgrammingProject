@@ -7,7 +7,7 @@
         public DateTime end_t { get; set; }
         public TimeSpan availableTimeSpan { get; set; }
 
-        public Barber Barber { get; set; }  
+        public int BarberId { get; set; }  
 
         public AvailableTime(DateTime start_t, DateTime end_t)
         {

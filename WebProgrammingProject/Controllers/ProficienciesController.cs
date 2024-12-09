@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,22 +10,23 @@ using WebProgrammingProject.Models.db;
 
 namespace WebProgrammingProject.Controllers
 {
-    public class PeopleController : Controller
+    [Authorize(Roles = "A")]
+    public class ProficienciesController : Controller
     {
         private readonly Db _context;
 
-        public PeopleController(Db context)
+        public ProficienciesController(Db context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Proficiencies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Person_t.ToListAsync());
+            return View(await _context.Proficiencies_t.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Proficiencies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +34,39 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person_t
+            var proficiencies = await _context.Proficiencies_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (proficiencies == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(proficiencies);
         }
 
-        // GET: People/Create
+        // GET: Proficiencies/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: People/Create
+        // POST: Proficiencies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SurName,Email,Password")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,name,price")] Proficiencies proficiencies)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.Add(proficiencies);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(proficiencies);
         }
 
-        // GET: People/Edit/5
+        // GET: Proficiencies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +74,22 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person_t.FindAsync(id);
-            if (person == null)
+            var proficiencies = await _context.Proficiencies_t.FindAsync(id);
+            if (proficiencies == null)
             {
                 return NotFound();
             }
-            return View(person);
+            return View(proficiencies);
         }
 
-        // POST: People/Edit/5
+        // POST: Proficiencies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SurName,Email,Password")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,name,price")] Proficiencies proficiencies)
         {
-            if (id != person.Id)
+            if (id != proficiencies.Id)
             {
                 return NotFound();
             }
@@ -96,12 +98,12 @@ namespace WebProgrammingProject.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(proficiencies);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.Id))
+                    if (!ProficienciesExists(proficiencies.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +114,10 @@ namespace WebProgrammingProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(proficiencies);
         }
 
-        // GET: People/Delete/5
+        // GET: Proficiencies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +125,34 @@ namespace WebProgrammingProject.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Person_t
+            var proficiencies = await _context.Proficiencies_t
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (proficiencies == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(proficiencies);
         }
 
-        // POST: People/Delete/5
+        // POST: Proficiencies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var person = await _context.Person_t.FindAsync(id);
-            if (person != null)
+            var proficiencies = await _context.Proficiencies_t.FindAsync(id);
+            if (proficiencies != null)
             {
-                _context.Person_t.Remove(person);
+                _context.Proficiencies_t.Remove(proficiencies);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(int id)
+        private bool ProficienciesExists(int id)
         {
-            return _context.Person_t.Any(e => e.Id == id);
+            return _context.Proficiencies_t.Any(e => e.Id == id);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace WebProgrammingProject.Controllers
         {
             _context = context;
         }
+        [Authorize(Roles = "A")]
         public IActionResult Index()
         {
             return View();

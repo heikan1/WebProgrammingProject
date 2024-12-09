@@ -10,11 +10,11 @@ namespace WebProgrammingProject.Models.db
         public string Description { get; set; }
         public string Address { get; set; }
 
-        [Required]
-        public List<Barber> Barbers { get; set; } = new List<Barber>();
+        //[Required]
+        //public List<Barber> Barbers { get; set; } = new List<Barber>();
 
         public int ShopkeeperId { get; set; } // Required foreign key property
-        public Shopkeeper? shopkeeper { get; set; }
+        //public Shopkeeper? shopkeeper { get; set; }
 
     }
 }

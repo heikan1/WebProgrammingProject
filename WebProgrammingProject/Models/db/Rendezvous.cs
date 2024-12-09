@@ -8,7 +8,7 @@ namespace WebProgrammingProject.Models.db
         [Key]
         public int Id { get; set; }
         public DateTime When { get; set; }
-        public Customer Customer { get; set; }
-        public Barber Barber { get; set; }
+        public int CustomerId { get; set; }
+        public int BarberId { get; set; }
     }
 }

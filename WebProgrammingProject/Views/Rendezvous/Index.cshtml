@@ -1,11 +1,11 @@
-﻿@model IEnumerable<WebProgrammingProject.Models.db.Person>
+﻿@model IEnumerable<WebProgrammingProject.Models.db.Rendezvous>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Randevular</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -14,16 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.When)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SurName)
+                @Html.DisplayNameFor(model => model.CustomerId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
+                @Html.DisplayNameFor(model => model.BarberId)
             </th>
             <th></th>
         </tr>
@@ -32,16 +29,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.When)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SurName)
+                @Html.DisplayFor(modelItem => item.CustomerId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
+                @Html.DisplayFor(modelItem => item.BarberId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
