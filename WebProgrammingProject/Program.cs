@@ -21,7 +21,8 @@ namespace WebProgrammingProject
             
             builder.Services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                x => { x.LoginPath = "/Account/Login"; }
+                x => { x.LoginPath = "/Account/Login"; 
+                x.LogoutPath = "/Account/Logout"; }
                 );
 
             var app = builder.Build();

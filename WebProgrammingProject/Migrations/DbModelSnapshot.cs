@@ -77,6 +77,9 @@ namespace WebProgrammingProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<int>("Wage")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Barber_t");
@@ -122,6 +125,9 @@ namespace WebProgrammingProject.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<TimeSpan>("duration")
+                        .HasColumnType("interval");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -151,6 +157,10 @@ namespace WebProgrammingProject.Migrations
                     b.Property<DateTime>("When")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("operation")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Rendezvous_t");
@@ -168,16 +178,30 @@ namespace WebProgrammingProject.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.PrimitiveCollection<int[]>("AllDays")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.PrimitiveCollection<int[]>("SelectedDays")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
                     b.Property<int>("ShopkeeperId")
                         .HasColumnType("integer");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
 

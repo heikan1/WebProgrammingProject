@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using NuGet.Packaging.Signing;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebProgrammingProject.Models.db
@@ -26,7 +27,11 @@ namespace WebProgrammingProject.Models.db
         [Required(ErrorMessage = "Lütfen şifrenizi giriniz."), MinLength(10, ErrorMessage = "Şifreniz 10 karakterden uzun olmalıdır."), MaxLength(100, ErrorMessage = "Şifreniz 100 karakterden küçük olmalıdır.")]
         [DisplayName("Şifre")]
         public string Password { get; set; }
-
+        
+        [Required(ErrorMessage = "Lütfen maaş giriniz.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Lütfen 0'dan büyük eşit bir maaş değeri giriniz.")]
+        [DisplayName("Maaş")]
+        public int Wage{ get; set; }
         //public List<Rendezvous> Rendezvous { get; set; }
         //public List<AvailableTime> AvailableTimes { get; set; }
         public List<int> Proficiencies = new List<int>();

@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.ComponentModel;
 
 namespace WebProgrammingProject.Models.db
 {
+   
     public class Db : DbContext
     {
         public DbSet<Customer> Customer_t { get; set; }
@@ -17,5 +21,21 @@ namespace WebProgrammingProject.Models.db
         {
             optionsBuilder.UseNpgsql("<connection string>");
         }*/
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Shop>(entity =>
+            {
+                entity.Property(e => e.StartTime)
+                      .HasConversion(
+                          v => v.ToString(),          // Convert TimeSpan to string
+                          v => TimeOnly.Parse(v));     // Convert string back to TimeSpan
+
+                entity.Property(e => e.EndTime)
+                      .HasConversion(
+                          v => v.ToString(),
+                          v => TimeOnly.Parse(v));
+            });
+        }*/
+   
     }
 }

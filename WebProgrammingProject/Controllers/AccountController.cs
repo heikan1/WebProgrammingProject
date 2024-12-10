@@ -94,8 +94,12 @@ namespace WebProgrammingProject.Controllers
 
         }
 
-        public IActionResult Logout()
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public /*async Task<*/IActionResult Logout()
         {
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //await HttpContext.log
             foreach (var cookie in Request.Cookies)
             {
                 Response.Cookies.Delete(cookie.Key); // Deletes each cookie.

@@ -50,7 +50,8 @@ namespace WebProgrammingProject.Controllers
             List<int> sh_ids = (from sh in _context.Shopkeeper_t
                              select sh.Id).ToList();
             ViewBag.shIds = sh_ids;
-            return View();
+            var model = new Shop();
+            return View(model);
         }
 
         // POST: Shops/Create
@@ -60,6 +61,7 @@ namespace WebProgrammingProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
         {
+            //burayi bayagi bi elden gecirmek lazim ya offff
             if (ModelState.IsValid)
             {
                 _context.Add(shop);

@@ -8,5 +8,6 @@ namespace WebProgrammingProject.Models.db
         public int Id { get; set; }
         public string name { get; set; }
         public int price { get; set; }
+        public TimeSpan duration { get; set; }
     }
 }
