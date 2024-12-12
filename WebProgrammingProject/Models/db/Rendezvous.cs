@@ -9,11 +9,13 @@ namespace WebProgrammingProject.Models.db
         public int Id { get; set; }
         [Required]
         public DateTime When { get; set; }
+        //saatini berberlerin availableliklarindan gunleri de salon ve berberler ile karsilastirarak yaparsin
         [Required]
         public int CustomerId { get; set; }
         [Required]
         public int BarberId { get; set; }
         [Required]
         public string operation { get; set; }
+        //operationdan duration + when alirim
     }
 }

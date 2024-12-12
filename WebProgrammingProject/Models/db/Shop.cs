@@ -5,22 +5,12 @@ namespace WebProgrammingProject.Models.db
 {
     public class Shop
     {
-        public enum DayOfWeekEnum
-        {
-            Pazartesi = 0,
-            Salı = 1,
-            Çarşamba = 2,
-            Perşembe = 3,
-            Cuma = 4,
-            Cumartesi = 5,
-            Pazar = 6
-        }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-
+        public string City { get; set; }
 
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }

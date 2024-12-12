@@ -7,6 +7,7 @@ namespace WebProgrammingProject.Models.db
 
     public class Barber
     {
+
         [Key]
         public int Id { get; set; }
         //[Required]
@@ -34,7 +35,19 @@ namespace WebProgrammingProject.Models.db
         public int Wage{ get; set; }
         //public List<Rendezvous> Rendezvous { get; set; }
         //public List<AvailableTime> AvailableTimes { get; set; }
-        public List<int> Proficiencies = new List<int>();
-        public string Role  = "B";
+        
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
+
+        // List to hold selected days
+        public List<DayOfWeekEnum> SelectedDays { get; set; } = new List<DayOfWeekEnum>();
+
+        // Helper property to generate all days of the week
+        public List<DayOfWeekEnum> AllDays { get; set; } = Enum.GetValues(typeof(DayOfWeekEnum))
+                                                          .Cast<DayOfWeekEnum>()
+                                                          .ToList();        //[Required]
+
+        public int Proficiency { get; set; }
+    public string Role  = "B";
     }
 }

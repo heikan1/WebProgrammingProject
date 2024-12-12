@@ -29,18 +29,23 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ShopkeeperId" class="control-label"></label>
                 <select asp-for="ShopkeeperId" asp-items="@(new SelectList(ViewBag.shIds))" class="form-control"></select>
                 <span asp-validation-for="ShopkeeperId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartTime" class="control-label"></label>
-                <input asp-for="StartTime" class="form-control" />
+                <input asp-for="StartTime" type="time" class="form-control" />
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndTime" class="control-label"></label>
-                <input asp-for="EndTime" class="form-control" />
+                <input asp-for="EndTime" type ="time" class="form-control" />
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
             <div>
@@ -48,7 +53,7 @@
                 @foreach (var day in Model.AllDays)
                 {
                     <div>
-                        <input type="checkbox" name="SelectedDays" value="@day" />
+                        <input type="checkbox" name="SelectedDays" value="@((int)day)" />
                         <label>@day</label>
                     </div>
                 }

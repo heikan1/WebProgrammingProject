@@ -1,4 +1,4 @@
-﻿@model WebProgrammingProject.Models.db.Barber
+﻿@model WebProgrammingProject.Models.BarberCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,30 +13,66 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ShopId" class="control-label"></label>
-                <select asp-for="ShopId" asp-items="@(new SelectList(ViewBag.shIds))" class="form-control"></select>
-                <span asp-validation-for="ShopId" class="text-danger"></span>
+                <label asp-for="Barber.ShopId" class="control-label"></label>
+            <select asp-for="Barber.ShopId" asp-items="@(new SelectList(ViewBag.shIds))" class="form-control"></select>
+            <span asp-validation-for="Barber.ShopId" class="text-danger"></span>
             </div>
 
         <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+            <label asp-for="Barber.FirstName" class="control-label"></label>
+            <input asp-for="Barber.FirstName" class="form-control" />
+            <span asp-validation-for="Barber.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SurName" class="control-label"></label>
-                <input asp-for="SurName" class="form-control" />
-                <span asp-validation-for="SurName" class="text-danger"></span>
+            <label asp-for="Barber.SurName" class="control-label"></label>
+            <input asp-for="Barber.SurName" class="form-control" />
+            <span asp-validation-for="Barber.SurName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <label asp-for="Barber.Email" class="control-label"></label>
+            <input asp-for="Barber.Email" class="form-control" />
+            <span asp-validation-for="Barber.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <label asp-for="Barber.Password" class="control-label"></label>
+            <input asp-for="Barber.Password" class="form-control" />
+                <span asp-validation-for="Barber.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Barber.StartTime" class="control-label"></label>
+            <input asp-for="Barber.StartTime" type="time" class="form-control" />
+            <span asp-validation-for="Barber.StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="Barber.EndTime" class="control-label"></label>
+            <input asp-for="Barber.EndTime" type="time" class="form-control" />
+            <span asp-validation-for="Barber.EndTime" class="text-danger"></span>
+            </div>
+        <div class="form-group">
+            <label asp-for="Barber.Wage" class="control-label"></label>
+            <input asp-for="Barber.Wage" type="number" class="form-control" />
+            <span asp-validation-for="Barber.Wage" class="text-danger"></span>
+        </div>
+            <div>
+                <label for="Proficiency">Select Proficiency:</label>
+            <select asp-for="Barber.Proficiency" asp-items="@(new SelectList(ViewBag.prof, "Key", "Value"))">
+                    <option value="">-- Select Proficiency --</option>
+                @foreach (var prof in ViewBag.prof)
+                    {
+                        <option value="@prof.Key">@prof.Value</option>
+                    }
+                </select>
+            <span asp-validation-for="Barber.Proficiency"></span>
+            </div>
+            <div>
+                <label>Haftanin hangi gunleri calisilacak:</label>
+            @foreach (var day in Model.Barber.AllDays)
+                {
+                    <div>
+                        <input type="checkbox" name="SelectedDays" value="@((int)day)" />
+                        <label>@day</label>
+                    </div>
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

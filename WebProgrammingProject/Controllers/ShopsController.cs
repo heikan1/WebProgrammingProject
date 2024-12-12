@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebProgrammingProject.Models;
 using WebProgrammingProject.Models.db;
 
 namespace WebProgrammingProject.Controllers
@@ -13,6 +14,7 @@ namespace WebProgrammingProject.Controllers
     [Authorize(Roles = "A")]
     public class ShopsController : Controller
     {
+ 
         private readonly Db _context;
 
         public ShopsController(Db context)
@@ -59,10 +61,16 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Address,ShopkeeperId,StartTime,EndTime,City")] Shop shop, List<int> SelectedDays)
         {
             //burayi bayagi bi elden gecirmek lazim ya offff
-            if (ModelState.IsValid)
+            foreach (var day in SelectedDays)
+            {
+                // You can now work with the integer values or convert them back to the enum
+                DayOfWeekEnum selectedDay = (DayOfWeekEnum)day;
+                shop.SelectedDays.Add(selectedDay);
+            }
+                if (ModelState.IsValid)
             {
                 _context.Add(shop);
                 await _context.SaveChangesAsync();
@@ -95,13 +103,18 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Address,ShopkeeperId")] Shop shop)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Address,ShopkeeperId,StartTime,EndTime,City")] Shop shop, List<int> SelectedDays)
         {
             if (id != shop.Id)
             {
                 return NotFound();
             }
-
+            foreach (var day in SelectedDays)
+            {
+                // You can now work with the integer values or convert them back to the enum
+                DayOfWeekEnum selectedDay = (DayOfWeekEnum)day;
+                shop.SelectedDays.Add(selectedDay);
+            }
             if (ModelState.IsValid)
             {
                 try

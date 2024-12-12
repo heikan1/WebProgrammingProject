@@ -1,18 +1,21 @@
-﻿namespace WebProgrammingProject.Models.db
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace WebProgrammingProject.Models.db
 {
     public class AvailableTime
     {
         public int Id { get; set; }
-        public DateTime start_t { get; set; }
-        public DateTime end_t { get; set; }
+        public TimeOnly shift_start { get; set; }
+        public TimeOnly shift_end { get; set; }
         public TimeSpan availableTimeSpan { get; set; }
+
 
         public int BarberId { get; set; }  
 
-        public AvailableTime(DateTime start_t, DateTime end_t)
+        /*public AvailableTime(TimeSpan start_t, TimeSpan end_t)
         {
             availableTimeSpan = end_t.Subtract(start_t);
-        }
+        }*/
 
         //public TimeSpan availableSpan 
         //aradaki zamani donduren bir degiskene de ihtiyacim var basladigi zaman direkt calistirirsa

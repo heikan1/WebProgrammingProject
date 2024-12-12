@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebProgrammingProject.Models;
 using WebProgrammingProject.Models.db;
 
 namespace WebProgrammingProject.Controllers
 {
+
     [Authorize(Roles = "A")]
     public class BarbersController : Controller
     {
@@ -49,8 +51,25 @@ namespace WebProgrammingProject.Controllers
         {
             List<int> sh_ids = (from sh in _context.Shop_t
                     select sh.Id).ToList();
+
+            List<int> p_ids = (from p in _context.Proficiencies_t
+                                select p.Id).ToList();
+            var proficiencies = new Dictionary<int, string>();
+            foreach (var id in p_ids)
+            {
+                proficiencies.Add(id,(from p in _context.Proficiencies_t where id == p.Id select p.name).FirstOrDefault());
+            }
+            ViewBag.prof = proficiencies;
             ViewBag.shIds = sh_ids;
-            return View();
+            ViewBag.pIds = p_ids;
+
+            var model = new BarberCreateViewModel
+            {
+                Barber = new Barber(),
+                //Proficiencies = proficiencies,
+                //ShopIds = sh_ids
+            };
+            return View(model);
         }
 
         // POST: Barbers/Create
@@ -58,17 +77,46 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShopId,FirstName,SurName,Email,Password")] Barber barber)
+        public async Task<IActionResult> Create(BarberCreateViewModel model, List<int> SelectedDays)
         {
-
+            //var selectedProficiencyId = 
+            //[Bind("Id,FirstName,SurName,Email,Password,StartTime,EndTime")] Barber barber, List<int> SelectedDays, Dictionary<int,string> prof, int ShopId
+            /*foreach (var p  in prof)
+            {
+                // You can now work with the integer values or convert them back to the enum
+                barber.Proficiencies.Add(p.Key);
+            }
+            foreach (var day in SelectedDays)
+            {
+                // You can now work with the integer values or convert them back to the enum
+                DayOfWeekEnum selectedDay = (DayOfWeekEnum)day;
+                barber.SelectedDays.Add(selectedDay);
+            }*/
+            //model.Proficiencies = new Dictionary<int, string>();
+            //model.ShopIds = new List<int>();
+            //model.Proficiencies = new List<int>();
+            Barber newBarber;
             if (ModelState.IsValid)
             {
-                _context.Add(barber);
+                // Extract selected ShopId and ProficiencyId from the model
+                //var selectedShopId = model.Barber.ShopId;
+                //var selectedProficiencyId = model.Proficiencies;
+
+                // Initialize and populate the Barber entity from the model
+                newBarber = model.Barber;
+                foreach (var day in SelectedDays)
+                {
+                    // You can now work with the integer values or convert them back to the enum
+                    DayOfWeekEnum selectedDay = (DayOfWeekEnum)day;
+                    newBarber.SelectedDays.Add(selectedDay);
+                }                //newBarber.Proficiencies = selectedProficiencyId;
+                                 //_context.Add(barber);
+                _context.Add(newBarber);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(barber);
+            return View(model);
         }
 
         // GET: Barbers/Edit/5
