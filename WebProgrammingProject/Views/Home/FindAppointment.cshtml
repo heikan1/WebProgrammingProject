@@ -1,0 +1,57 @@
+﻿@model WebProgrammingProject.Models.findAppointmentVM
+
+
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+<h1>Randevu Alabileceginiz Berberler:</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Mağaza ID
+            </th>
+            <th>
+                Berber İsmi
+            </th>
+            <th>
+                Berber Soyİsmi
+            </th>
+            <th>
+                Uzmanlik
+            </th>
+            <th>
+                Mesai Saatleri
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.barbers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShopId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SurName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proficiency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime) | @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    <a asp-action="GetRandevu" asp-route-id="@item.Id">Randevu Al</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

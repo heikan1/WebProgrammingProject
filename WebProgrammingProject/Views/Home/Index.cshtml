@@ -1,4 +1,7 @@
-﻿@{
+﻿@model WebProgrammingProject.Models.homeViewModel
+
+@{ 
+    //ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
     //Html = "~/Views/Shared/_AdminPanelSidebar.cshtml";
     //<partial name="~/Views/Shared/_AdminPanelSidebar.cshtml" />
@@ -34,15 +37,21 @@
         <div style="position: relative; display: inline-block; text-align: center;">
             
             <img src="/images/barberShopPhoto.jpg" alt="Image" class="img-fluid" style="display: block; max-width: 100%; height: auto;">
+            <form asp-controller="Home"
+                  asp-action="FindAppointment"
+                  method="post" 
+                  style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 10px;">
+                @Html.AntiForgeryToken()
 
-            <form style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 10px;">
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Konum Seçiniz" required>
+                <div class="form-group">
+                    
+                    <select asp-for="city" asp-items="@(new SelectList(ViewBag.cities))" class="form-control"></select>
+                    <span asp-validation-for="city" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Tarih Seçiniz" required>
+                    <input asp-for = "tarih" type="date" class="form-control" placeholder="Tarih Seçiniz" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Randevu Bul</button>
+                <button  type="submit" class="btn btn-primary">Randevu Bul</button>
             </form>
 
         </div>
