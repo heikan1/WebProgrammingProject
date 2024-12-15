@@ -178,6 +178,56 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
         
+        public IActionResult Randevular()
+        {
+            var model = new RandevuVM();
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            List<Rendezvous> randevularim = new List<Rendezvous>();
+            Barber berber;
+            Customer cstmr;
+            int userid;
+            if (userRole == "B")
+            {
+                berber = (from b in _context.Barber_t where b.Email == userEmail select b).FirstOrDefault();
+                model.barber = berber;
+                randevularim = (from r in _context.Rendezvous_t where r.BarberId == berber.Id select r).ToList();
+            }
+            else if(userRole == "C")
+            {
+                cstmr = (from c in _context.Customer_t where c.Email == userEmail select c).FirstOrDefault();
+                model.user = cstmr;
+                randevularim = (from r in _context.Rendezvous_t where r.CustomerId == cstmr.Id select r).ToList();
+            }
+            model.userRole = userRole;
+            model.myRendezvous = randevularim;
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Randevular(int randevuId, string aksiyon)
+        {
+            var randevu = (from r in _context.Rendezvous_t where r.Id == randevuId select r).FirstOrDefault();
+            if (randevu == null)
+            {
+                return NotFound();
+            }
+            if (aksiyon == "True")
+                randevu.isApproved = false;
+            else
+                randevu.isApproved = true;
+
+
+                _context.Update(randevu);
+                await _context.SaveChangesAsync();
+
+            return RedirectToAction("Randevular", "Home");
+        }
+
+
+            
+
+        
         public IActionResult Privacy()
         {
             return View();

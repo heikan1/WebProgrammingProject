@@ -23,44 +23,67 @@
                 // Create a list of times for the dropdown (each increment by 1 hour)
                 List<TimeOnly> timeSlots = new List<TimeOnly>();
                 List<TimeOnly> detimeSlots = new List<TimeOnly>();
-
-                for (var time = startTime; time <= endTime; time = time.AddHours(1))
+            if (Model.randevular.Count > 0)
+            {
+                foreach (var randevu in Model.randevular)
                 {
-                    if (Model.randevular.Count>0)
+                    if (randevu.BarberId == item.Id)
+                    {
+                        doesBarberHaveRandezvous = true;
+                        break;
+                    }
+
+                }
+                if (doesBarberHaveRandezvous)
+                {
+                    for (var time = startTime; time <= endTime; time = time.AddHours(1))
+                    {
+                        timeSlots.Add(time);
+                    }
+                    foreach(var time in timeSlots)
                     {
                         foreach (var randevu in Model.randevular)
                         {
-                            if (randevu.BarberId == item.Id)
+                            if(randevu.When.Hour == time.Hour)
                             {
-                                doesBarberHaveRandezvous = true;
-                                break; 
-                            }
-                                
-                        }
-                        if (doesBarberHaveRandezvous)
-                        {
-                            
-                            foreach (var randevu in Model.randevular)
-                            {
-                                if (time.Hour != randevu.When.Hour && randevu.BarberId == item.Id && !timeSlots.Contains(time))
-                                {
-                                        timeSlots.Add(time);
-                                }
-
+                                detimeSlots.Add(time);
                             }
                         }
-                        else
-                        {
-                            timeSlots.Add(time);
-                        }
-                        
                     }
-                    else
+                    foreach(var detime in detimeSlots)
+                    {
+                        if (timeSlots.Contains(detime))
+                        {
+                            timeSlots.Remove(detime);
+                        }
+                    }
+                    /*for (var time = startTime; time <= endTime; time = time.AddHours(1))
+                    {
+                        foreach (var randevu in Model.randevular)
+                        {   
+                            if (time.Hour != randevu.When.Hour && randevu.BarberId == item.Id)
+                            {
+                                if ((timeSlots.Count( t=> t == time)==0))
+                                {
+                                    timeSlots.Add(time);
+                                }
+                            }
+                            
+                        }
+                    }*/
+                    
+                }
+                else
+                {
+                    //hepsini ekle
+                    for (var time = startTime; time <= endTime; time = time.AddHours(1))
                     {
                         timeSlots.Add(time);
                     }
                 }
-
+                
+            }
+            
                 //berberin randevularini bulucam
             <form method="post" asp-action="GetRandevu">
             <tr>

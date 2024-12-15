@@ -1,0 +1,117 @@
+﻿@model WebProgrammingProject.Models.RandevuVM
+
+@{
+    Layout = "~/Views/Shared/_SiteLayout.cshtml";
+}
+
+<h1>Randevularım</h1>
+
+@if(Model.userRole == "C")
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Operasyon
+                </th>
+                <th>
+                    Zaman
+                </th>
+                <th>
+                    Berber
+                </th>
+                <th>
+                    Onaylandı MI?
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.myRendezvous)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.operation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.When)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BarberId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isApproved)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.userRole == "B")
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Operasyon
+                </th>
+                <th>
+                    Zaman
+                </th>
+                <th>
+                    Müşteri
+                </th>
+                <th>
+                    Onaylandı MI?
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.myRendezvous)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.operation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.When)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.user.Id)
+                    </td>
+                    <td>
+                        <div>
+                        @Html.DisplayFor(modelItem => item.isApproved)
+                        </div>
+                    <td>
+                    <td>
+                            @using (Html.BeginForm("Randevular", "Home", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                            <input type="hidden" name="randevuId" value="@item.Id" />
+                                    <input type="hidden" name="aksiyon" value="@item.isApproved.ToString()" />
+
+                                    if(item.isApproved){
+                                        <div class="form-group">
+                                            <input type="submit" value="Reddet" class="btn btn-danger" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="form-group">
+                                        <input type="submit" value="Onayla" class="btn btn-primary" />
+                                    </div>
+                                    }
+
+                            }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
