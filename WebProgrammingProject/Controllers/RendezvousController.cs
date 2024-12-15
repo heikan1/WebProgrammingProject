@@ -53,10 +53,11 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,When,CustomerId,BarberId")] Rendezvous rendezvous)
+        public async Task<IActionResult> Create([Bind("Id,When,CustomerId,BarberId,operation")] Rendezvous rendezvous)
         {
             if (ModelState.IsValid)
             {
+                rendezvous.When = DateTime.SpecifyKind(rendezvous.When, DateTimeKind.Utc);
                 _context.Add(rendezvous);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,7 +86,7 @@ namespace WebProgrammingProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,When,CustomerId,BarberId")] Rendezvous rendezvous)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,When,CustomerId,BarberId,operation")] Rendezvous rendezvous)
         {
             if (id != rendezvous.Id)
             {

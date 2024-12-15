@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebProgrammingProject.Models.db;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace WebProgrammingProject.Controllers
 {
@@ -81,7 +83,8 @@ namespace WebProgrammingProject.Controllers
                         {
                         new Claim(ClaimTypes.Name, customer.FirstName),
                         new Claim(ClaimTypes.Email, customer.Email),
-                        new Claim(ClaimTypes.Role, customer.Role) // Rolü sakla
+                        new Claim(ClaimTypes.Role, customer.Role), // Rolü sakla
+                        //new Claim(ClaimTypes.Authentication, customer.Id)
                         };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -108,6 +111,36 @@ namespace WebProgrammingProject.Controllers
         }
         public IActionResult Register()
         {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Register(Customer c)
+        {
+            if (ModelState.IsValid)
+            {
+                //dbye kaydet ve cookie olustur kismi
+                _context.Add(c);
+                await _context.SaveChangesAsync();
+
+                var claims = new List<Claim>
+                        {
+                        new Claim(ClaimTypes.Name, c.FirstName),
+                        new Claim(ClaimTypes.Email, c.Email),
+                        new Claim(ClaimTypes.Role, c.Role) // Rolü sakla
+                        };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                //hata mesaji eklerim
+                return RedirectToAction("Index", "Home");
+
+                //return RedirectToAction("Login", new { email = c.Email, password = c.Password });
+            }
+            //hata kismi
+            ViewBag.ErrorMessage = "Kayit Basarisiz Lutfen Tekrar Deneyiniz!";
             return View();
         }
     }

@@ -9,49 +9,103 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-               Mağaza ID
-            </th>
-            <th>
-                Berber İsmi
-            </th>
-            <th>
-                Berber Soyİsmi
-            </th>
-            <th>
-                Uzmanlik
-            </th>
-            <th>
-                Mesai Saatleri
-            </th>
-            <th>
-            </th>
-        </tr>
+
     </thead>
     <tbody>
-        @foreach (var item in Model.barbers)
-        {
+       
+            @foreach (var item in Model.barbers)
+            {
+
+                // Calculate the range between StartTime and EndTime
+                var startTime = item.StartTime;
+                var endTime = item.EndTime;
+                bool doesBarberHaveRandezvous = false;
+                // Create a list of times for the dropdown (each increment by 1 hour)
+                List<TimeOnly> timeSlots = new List<TimeOnly>();
+                List<TimeOnly> detimeSlots = new List<TimeOnly>();
+
+                for (var time = startTime; time <= endTime; time = time.AddHours(1))
+                {
+                    if (Model.randevular.Count>0)
+                    {
+                        foreach (var randevu in Model.randevular)
+                        {
+                            if (randevu.BarberId == item.Id)
+                            {
+                                doesBarberHaveRandezvous = true;
+                                break; 
+                            }
+                                
+                        }
+                        if (doesBarberHaveRandezvous)
+                        {
+                            
+                            foreach (var randevu in Model.randevular)
+                            {
+                                if (time.Hour != randevu.When.Hour && randevu.BarberId == item.Id && !timeSlots.Contains(time))
+                                {
+                                        timeSlots.Add(time);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            timeSlots.Add(time);
+                        }
+                        
+                    }
+                    else
+                    {
+                        timeSlots.Add(time);
+                    }
+                }
+
+                //berberin randevularini bulucam
+            <form method="post" asp-action="GetRandevu">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShopId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SurName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Proficiency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime) | @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    <a asp-action="GetRandevu" asp-route-id="@item.Id">Randevu Al</a> 
-                </td>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.SurName)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.ShopId)</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Uzmanlık: @Html.DisplayFor(modelItem => item.Proficiency) </li>
+                            <li class="list-group-item">Mesai: @Html.DisplayFor(modelItem => item.StartTime) | @Html.DisplayFor(modelItem => item.EndTime) </li>
+                        </ul>
+                            @Html.AntiForgeryToken()
+                        <!-- Time Slot ComboBox -->
+                        <div class="form-group">
+                            <label class="control-label"> Randevu alabileceğiniz boş zamanlar:</label>
+                        <select name="TimeSlot" class="form-control">
+                                @foreach (var timeSlot in timeSlots)
+                                {
+                                    {
+                                    <option value="@timeSlot.ToString(@"hh\:mm\:ss tt")">@timeSlot.ToString(@"hh\:mm tt")</option>
+                                    }
+                                }
+                        </select>
+                       </div>
+                        <div class="form-group">
+                            <label class="control-label"> İşlem tercihi:</label>
+                            <select name="selectedProf" class="form-control">
+                                    @foreach (var prf in Model.prf)
+                                    {
+                                        {
+                                        <option value="@prf.Id">@prf.name | @prf.duration</option>
+                                        }
+                                    }
+                            </select>
+                        </div>
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="hidden" name="tarih" value=@Model.tarih />
+                        <button type="submit" class="btn btn-primary">Randevu Al</button>
+                    </div>
+                </div>
             </tr>
-        }
+            <input type="hidden" name="role" value="@ViewBag.UserRole" />
+                </form>
+            }
+    
+        
     </tbody>
 </table>

@@ -15,6 +15,7 @@ namespace WebProgrammingProject.Models.db
         [Required]
         public int BarberId { get; set; }
         [Required]
+        public bool isApproved { get; set; } = false;
         public string operation { get; set; }
         //operationdan duration + when alirim
     }
