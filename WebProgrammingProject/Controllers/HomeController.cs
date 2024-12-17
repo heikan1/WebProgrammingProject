@@ -225,9 +225,17 @@ namespace WebProgrammingProject.Controllers
         }
 
 
-            
+        public IActionResult ShopsList()
+        {
+            // Get the domain
+            var domain = $"{Request.Scheme}://{Request.Host}"; 
+            // Pass the domain to the view
+           ViewBag.apiUrl = domain + "/api/ShopsApi";
+            return View();
+        }
 
-        
+
+
         public IActionResult Privacy()
         {
             return View();

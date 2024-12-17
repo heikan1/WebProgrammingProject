@@ -1,0 +1,89 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var apiurl = ViewBag.apiurl;
+}
+
+<div>
+
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4" id="card-container"></div>
+
+<script>
+    // Specify the API endpoint for user data
+    const apiUrl = '@apiurl';
+
+    // Make a GET request using the Fetch API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(userData => {
+            // Process the retrieved user data
+            console.log('User Data:', userData);
+            displayCards(userData);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    function displayCards(data) {
+        //const container = document.getElementById('card-container');
+        //container.innerHTML = ''; // Clear any existing content
+        //let list = document.getElementById("myList");
+
+        const container = document.getElementById('card-container'); 
+        container.innerHTML = '';
+
+        data.forEach(item => {
+            //const obj = JSON.parse(item);
+            //let li = document.createElement('li');
+            //li.innerText = item["name"];
+            //list.appendChild(li);
+            /*let col = document.createElement('div');
+            col.className = "col";
+
+            let card = document.createElement('div');
+            card.className = "card";
+
+            let card_title = document.createElement('h5');
+            card_title.className = "card_title";
+            card_title.textContent = item["name"];
+            
+            card.appendChild(card_title);
+            col.appendChild(card);
+            container.appendChild(col);*/
+            const cardHtml = `
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-warning fw-bold">${item["name"]}</h5>
+                                <p class="card-text"> ID: ${item["id"]}</p>
+                                <ul>
+                                        <li>
+                                            <p><b>Hakkında:</b> ${item["description"]} </p>
+                                        </li>
+                                        <li>
+                                            <p><b>Şehir:</b> ${item["city"]} </p>
+                                        </li>
+                                        <li>
+                                            <p><b>Mesai Saatleri:</b> ${item["startTime"]} |${item["endTime"]} </p>
+                                        </li>
+                                        <li>
+                                            <p><b>Adres:</b> ${item["address"]} </p>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            container.innerHTML += cardHtml;
+        });
+    }
+</script>
+
