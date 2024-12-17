@@ -30,7 +30,7 @@ namespace WebProgrammingProject.Controllers
         public IActionResult Index()
         {
             List<string> cities = (from sh in _context.Shop_t
-                                select sh.City).ToList();
+                                select sh.City).Distinct().ToList();
             if(cities == null)
             {
                 cities = new List<string>();

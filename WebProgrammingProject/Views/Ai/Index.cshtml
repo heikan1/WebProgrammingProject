@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h1>SAÇ ÖNERİSİ AL</h1>
+
+
+<!-- Fotoğraf Yükleme Formu -->
+@if (ViewBag.EditedImageUrl == null)
+{
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Fotoğraf Yükle</h5>
+            <form asp-action="Index" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="photo" class="form-label">Fotoğraf Yükle:</label>
+                    <input type="file" name="photo" id="photo" class="form-control" accept="image/*" required />
+                </div>
+                <button type="submit" class="btn btn-warning">Öneri Al</button>
+            </form>
+        </div>
+    </div>
+}else{
+    <div class="card" style="shadow-sm mb-4">
+        <div class="card-body">
+            <table>
+            <tr>
+                    <td style="width: 25%;">
+                        @if (ViewBag.imageUrl != null)
+                        {
+                            <img class="img-fluid" src="@ViewBag.imageUrl" alt="Uploaded Photo" style="max-height: 400px; object-fit: cover;" />
+                        }
+                    </td>
+                    <td style ="width: 75%;">
+                            <div class="card-body">
+                                <h5 class="card-title text-warning">Öneriniz</h5>
+                                <p class="card-text">@ViewBag.EditedImageUrl</p>
+                                <button class="btn btn-warning" onclick="refreshPage()">Yeni Öneri Al</button>
+                            </div>
+                    </td>
+            </tr>
+        </table>
+            
+           
+        </div>
+    </div>
+
+}
+
+<script>function refreshPage() { location.reload(); }</script>

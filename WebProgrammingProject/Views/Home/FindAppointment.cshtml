@@ -3,6 +3,7 @@
 
 @{
     Layout = "~/Views/Shared/_SiteLayout.cshtml";
+
 }
 
 <h1>Randevu Alabileceginiz Berberler:</h1>
@@ -27,14 +28,14 @@
             {
                 foreach (var randevu in Model.randevular)
                 {
-                    if (randevu.BarberId == item.Id)
+                    if (randevu.BarberId == item.Id && (randevu.When.Year == Model.tarih.Year && randevu.When.Month== Model.tarih.Month&& randevu.When.Day == Model.tarih.Day))
                     {
                         doesBarberHaveRandezvous = true;
                         break;
                     }
 
                 }
-                if (doesBarberHaveRandezvous)
+                if (doesBarberHaveRandezvous) // o gun baska randevusu varsa
                 {
                     for (var time = startTime; time <= endTime; time = time.AddHours(1))
                     {
@@ -44,7 +45,7 @@
                     {
                         foreach (var randevu in Model.randevular)
                         {
-                            if(randevu.When.Hour == time.Hour)
+                            if (randevu.When.Hour == time.Hour && (randevu.When.Year == Model.tarih.Year && randevu.When.Month == Model.tarih.Month && randevu.When.Day == Model.tarih.Day))
                             {
                                 detimeSlots.Add(time);
                             }
@@ -57,23 +58,9 @@
                             timeSlots.Remove(detime);
                         }
                     }
-                    /*for (var time = startTime; time <= endTime; time = time.AddHours(1))
-                    {
-                        foreach (var randevu in Model.randevular)
-                        {   
-                            if (time.Hour != randevu.When.Hour && randevu.BarberId == item.Id)
-                            {
-                                if ((timeSlots.Count( t=> t == time)==0))
-                                {
-                                    timeSlots.Add(time);
-                                }
-                            }
-                            
-                        }
-                    }*/
                     
                 }
-                else
+                else // o gun baska randevusu yoksa direkt buna geliyor zaten
                 {
                     //hepsini ekle
                     for (var time = startTime; time <= endTime; time = time.AddHours(1))

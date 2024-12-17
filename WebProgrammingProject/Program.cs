@@ -25,6 +25,7 @@ namespace WebProgrammingProject
                 x.LogoutPath = "/Account/Logout"; }
                 );
 
+            builder.Services.AddHttpClient();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
